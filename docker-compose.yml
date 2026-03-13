@@ -46,6 +46,74 @@ services:
     ports:
       - "6379:6379"
 
+  api-gateway:
+    build:
+      context: ./api-gateway
+    ports:
+      - "8080:8080"
+    environment:
+      - PORT=8080
+      - USER_SERVICE_URL=http://user-service:8081
+      - RESTAURANT_SERVICE_URL=http://restaurant-service:8082
+      - ORDER_SERVICE_URL=http://order-service:8083
+      - DELIVERY_SERVICE_URL=http://delivery-service:8084
+    depends_on:
+      - user-service
+      - restaurant-service
+      - order-service
+      - delivery-service
+
+  user-service:
+    build:
+      context: ./user-service
+    ports:
+      - "8081:8081"
+    environment:
+      - PORT=8081
+      - DATABASE_URL=host=postgres user=swiggy password=password dbname=swiggy_db port=5432 sslmode=disable
+    depends_on:
+      - postgres
+
+  restaurant-service:
+    build:
+      context: ./restaurant-service
+    ports:
+      - "8082:8082"
+    environment:
+      - PORT=8082
+      - MONGO_URI=mongodb://mongo:27017
+    depends_on:
+      - mongo
+
+  order-service:
+    build:
+      context: ./order-service
+    ports:
+      - "8083:8083"
+    environment:
+      - PORT=8083
+      - DATABASE_URL=host=postgres user=swiggy password=password dbname=swiggy_db port=5432 sslmode=disable
+      - KAFKA_BROKERS=kafka:9092
+      - KAFKA_ORDER_TOPIC=orders
+    depends_on:
+      - postgres
+      - kafka
+
+  delivery-service:
+    build:
+      context: ./delivery-service
+    ports:
+      - "8084:8084"
+    environment:
+      - PORT=8084
+      - DATABASE_URL=host=postgres user=swiggy password=password dbname=swiggy_db port=5432 sslmode=disable
+      - KAFKA_BROKERS=kafka:9092
+      - KAFKA_CONSUMER_GROUP=delivery-service-group
+      - KAFKA_ORDER_TOPIC=orders
+    depends_on:
+      - postgres
+      - kafka
+
 volumes:
   postgres_data:
   mongo_data:
