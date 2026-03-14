@@ -2,6 +2,7 @@ package main
 
 import (
 	"log"
+	"time"
 
 	"gorm.io/driver/postgres"
 	"gorm.io/gorm"
@@ -40,9 +41,19 @@ var DB *gorm.DB
 func initDB() {
 	dsn := getEnv("DATABASE_URL", "host=localhost user=swiggy password=password dbname=swiggy_db port=5432 sslmode=disable")
 	var err error
-	DB, err = gorm.Open(postgres.Open(dsn), &gorm.Config{})
+	
+	// Retry connection since DB might not be ready yet
+	for i := 0; i < 5; i++ {
+		DB, err = gorm.Open(postgres.Open(dsn), &gorm.Config{})
+		if err == nil {
+			break
+		}
+		log.Printf("Failed to connect to postgres, retrying in 2 seconds... (%v)", err)
+		time.Sleep(2 * time.Second)
+	}
+
 	if err != nil {
-		log.Fatalf("Failed to connect to postgres: %v", err)
+		log.Fatalf("Failed to connect to postgres after retries: %v", err)
 	}
 
 	// Migrate the schema
