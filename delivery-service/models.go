@@ -38,7 +38,7 @@ type DeliveryTask struct {
 var DB *gorm.DB
 
 func initDB() {
-	dsn := getEnv("DATABASE_URL", "host=localhost user=swiggy password=password dbname=swiggy_db port=5432 sslmode=disable")
+	dsn := getEnv("DATABASE_URL", "host=localhost user=gofood password=password dbname=gofood_db port=5432 sslmode=disable")
 	var err error
 
 	// Retry connection since DB might not be ready yet

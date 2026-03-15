@@ -1,4 +1,4 @@
-module github.com/swiggy-clone/api-gateway
+module github.com/go-food/api-gateway
 
 go 1.25.0
 

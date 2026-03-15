@@ -1,4 +1,4 @@
-module github.com/swiggy-clone/user-service
+module github.com/go-food/user-service
 
 go 1.25.0
 

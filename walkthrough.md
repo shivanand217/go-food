@@ -1,13 +1,13 @@
-# Swiggy Clone Microservices Walkthrough
+# Go-Food Microservices Walkthrough
 
-The backend for the Swiggy platform is now fully orchestrated and functioning natively as a loosely-coupled microservices system utilizing event-driven architecture!
+The backend for the Go-Food platform is now fully orchestrated and functioning natively as a loosely-coupled microservices system utilizing event-driven architecture!
 
 ## Architecture Summary
 We built the following stack, orchestrated entirely through Docker Compose:
 - **API Gateway**: A single entry point (port `8080`) that proxies all traffic to the respective downstream microservices.
 - **User Service** *(Postgres)*: Handles customer registration and authentication.
 - **Restaurant Service** *(MongoDB)*: Manages restaurant details and their dynamic menu catalogs.
-- **Order Service** *(Postgres + Kafka)*: Processes incoming user orders, acts as a Kafka Producer, and emits an [OrderCreated](file:///Users/shivprakash/.gemini/antigravity/scratch/swiggy-clone/order-service/kafka.go#12-19) event to a topic.
+- **Order Service** *(Postgres + Kafka)*: Processes incoming user orders, acts as a Kafka Producer, and emits an [OrderCreated](file:///Users/shivprakash/.gemini/antigravity/scratch/go-food/order-service/kafka.go#12-19) event to a topic.
 - **Delivery Service** *(Postgres + Kafka)*: Manages delivery agents, listens as a Kafka Consumer for new order events, and automatically assigns available delivery agents to orders.
 - **Infrastructure**: Zookeeper, Kafka, Postgres, MongoDB, and Redis running in parallel containers.
 

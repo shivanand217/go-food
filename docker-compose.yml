@@ -2,9 +2,9 @@ services:
   postgres:
     image: postgres:15
     environment:
-      POSTGRES_USER: swiggy
+      POSTGRES_USER: gofood
       POSTGRES_PASSWORD: password
-      POSTGRES_DB: swiggy_db
+      POSTGRES_DB: gofood_db
     ports:
       - "5432:5432"
     volumes:
@@ -48,6 +48,7 @@ services:
   api-gateway:
     build:
       context: ./api-gateway
+    image: go-food/api-gateway
     ports:
       - "8080:8080"
     environment:
@@ -65,17 +66,19 @@ services:
   user-service:
     build:
       context: ./user-service
+    image: go-food/user-service
     ports:
       - "8081:8081"
     environment:
       - PORT=8081
-      - DATABASE_URL=host=postgres user=swiggy password=password dbname=swiggy_db port=5432 sslmode=disable
+      - DATABASE_URL=host=postgres user=gofood password=password dbname=gofood_db port=5432 sslmode=disable
     depends_on:
       - postgres
 
   restaurant-service:
     build:
       context: ./restaurant-service
+    image: go-food/restaurant-service
     ports:
       - "8082:8082"
     environment:
@@ -87,11 +90,12 @@ services:
   order-service:
     build:
       context: ./order-service
+    image: go-food/order-service
     ports:
       - "8083:8083"
     environment:
       - PORT=8083
-      - DATABASE_URL=host=postgres user=swiggy password=password dbname=swiggy_db port=5432 sslmode=disable
+      - DATABASE_URL=host=postgres user=gofood password=password dbname=gofood_db port=5432 sslmode=disable
       - KAFKA_BROKERS=kafka:9092
       - KAFKA_ORDER_TOPIC=orders
     depends_on:
@@ -101,11 +105,12 @@ services:
   delivery-service:
     build:
       context: ./delivery-service
+    image: go-food/delivery-service
     ports:
       - "8084:8084"
     environment:
       - PORT=8084
-      - DATABASE_URL=host=postgres user=swiggy password=password dbname=swiggy_db port=5432 sslmode=disable
+      - DATABASE_URL=host=postgres user=gofood password=password dbname=gofood_db port=5432 sslmode=disable
       - KAFKA_BROKERS=kafka:9092
       - KAFKA_CONSUMER_GROUP=delivery-service-group
       - KAFKA_ORDER_TOPIC=orders

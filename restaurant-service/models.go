@@ -53,6 +53,6 @@ func initDB() {
 	log.Println("Connected to MongoDB!")
 	DB = client
 	
-	// Ensure swiggy_db database and restaurants collection
-	RestaurantCollection = DB.Database("swiggy_db").Collection("restaurants")
+	// Ensure gofood_db database and restaurants collection
+	RestaurantCollection = DB.Database("gofood_db").Collection("restaurants")
 }

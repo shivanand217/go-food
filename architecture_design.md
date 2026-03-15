@@ -1,6 +1,6 @@
-# Swiggy Clone Architecture Design
+# Go-Food Architecture Design
 
-This document outlines the High-Level Design (HLD) and Low-Level Design (LLD) for the Swiggy Clone backend microservices. These diagrams will help developers understand how communication flows between the different services.
+This document outlines the High-Level Design (HLD) and Low-Level Design (LLD) for the Go-Food backend microservices. These diagrams will help developers understand how communication flows between the different services.
 
 ## High-Level Design (HLD)
 
