@@ -13,7 +13,7 @@ This ecosystem comprises 5 distinct microservices orchestrated together.
 
 ---
 
-## 🚀 Step 1: Clone and Run
+## Step 1: Clone and Run
 To run the entire ecosystem locally, all you need is Docker and Docker Compose. No local Go installation is required because the images use multi-stage builds.
 
 1. **Clone the repository**
@@ -40,7 +40,7 @@ To run the entire ecosystem locally, all you need is Docker and Docker Compose. 
 
 ---
 
-## 🧪 Step 2: Test the Ecosystem (End-to-End)
+## Step 2: Test the Ecosystem (End-to-End)
 
 We will use the API Gateway on `localhost:8080` to interact with our microservices.
 
@@ -84,7 +84,7 @@ curl -X POST http://localhost:8080/api/restaurants/<restaurant_id>/menu \
 
 ---
 
-## ⚡ Step 3: Trigger the Event-Driven Flow (Order & Delivery Services)
+## Step 3: Trigger the Event-Driven Flow (Order & Delivery Services)
 
 The real magic happens when you place an order.
 1. The **Order Service** validates and saves the order to Postgres.
