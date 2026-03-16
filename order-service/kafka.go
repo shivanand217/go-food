@@ -1,8 +1,9 @@
 package main
 
 import (
-	"log"
 	"encoding/json"
+	"fmt"
+	"log"
 
 	"github.com/confluentinc/confluent-kafka-go/v2/kafka"
 )
@@ -39,7 +40,7 @@ func initKafkaProducer() {
 			}
 		}
 	}()
-	
+
 	log.Println("Kafka Producer initialized")
 }
 
@@ -59,8 +60,23 @@ func publishOrderCreatedEvent(order Order) error {
 		return err
 	}
 
+	// removed round robin partition
+	// err = Producer.Produce(&kafka.Message{
+	// 	TopicPartition: kafka.TopicPartition{Topic: &topic, Partition: kafka.PartitionAny},
+	// 	Value:          value,
+	// }, nil)
+
+	/*
+			Why OrderID as the partition key?
+		Your order goes through multiple state changes:
+		order_created → order_accepted → order_preparing → order_delivered
+		All these events need to be in order for the same order. Using OrderID as key guarantees all events for that order always land on the same partition.
+
+	*/
+
 	err = Producer.Produce(&kafka.Message{
 		TopicPartition: kafka.TopicPartition{Topic: &topic, Partition: kafka.PartitionAny},
+		Key:            []byte(fmt.Sprintf("%d", order.ID)),
 		Value:          value,
 	}, nil)
 

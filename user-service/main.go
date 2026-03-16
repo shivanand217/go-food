@@ -4,6 +4,7 @@ import (
 	"log"
 	"net/http"
 	"os"
+	"time"
 
 	"github.com/gin-gonic/gin"
 	"github.com/joho/godotenv"
@@ -55,9 +56,19 @@ func main() {
 func initDB() {
 	dsn := getEnv("DATABASE_URL", "host=localhost user=gofood password=password dbname=gofood_db port=5432 sslmode=disable")
 	var err error
-	DB, err = gorm.Open(postgres.Open(dsn), &gorm.Config{})
+	
+	// Retry connection a few times for slow startups (like Docker)
+	for i := 0; i < 10; i++ {
+		DB, err = gorm.Open(postgres.Open(dsn), &gorm.Config{})
+		if err == nil {
+			break
+		}
+		log.Printf("Failed to connect to database. Retrying in 2 seconds... (%d/10)", i+1)
+		time.Sleep(2 * time.Second)
+	}
+
 	if err != nil {
-		log.Fatalf("Failed to connect to database: %v", err)
+		log.Fatalf("Failed to connect to database after retries: %v", err)
 	}
 
 	// Migrate the schema
