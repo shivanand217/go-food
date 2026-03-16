@@ -29,10 +29,8 @@ SERVICES=("api-gateway" "user-service" "restaurant-service" "order-service" "del
 echo "Tagging and pushing images to Docker Hub..."
 
 for SERVICE in "${SERVICES[@]}"; do
-    # docker-compose generates local images named like 'go-food-api-gateway'
-    # We strip 'go-food-' or rely on the directory name. 
-    # By default, docker compose names images: <project_folder_name>-<service_name>
-    LOCAL_IMAGE="go-food-$SERVICE"
+    # Images in docker-compose.yml are defined as 'go-food/<service_name>'
+    LOCAL_IMAGE="go-food/$SERVICE"
     REMOTE_IMAGE="$USERNAME/go-food-$SERVICE:$VERSION"
     
     echo "----------------------------------------"
