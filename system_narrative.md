@@ -1,12 +1,7 @@
-# The Story of Go-Food: A Complete System Deep Dive
+# Deep Dive
 
-Welcome to the inner workings of **Go-Food**. Building a microservices backend isn't just about writing code; it's about choreographing a complex dance between completely independent programs. 
 
-This document is your guided tour. We will walk step-by-step through how the system boots up, how the services talk to each other, and exactly what happens behind the scenes from the moment a hungry user opens the app to the moment a delivery agent is assigned.
-
----
-
-## 1. The Boot Sequence: Bringing the Ecosystem to Life
+## 1. The Boot Sequence:
 
 When you run `docker-compose up`, you are not starting one program; you are starting **ten separate servers** on the same virtual network. 
 
