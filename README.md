@@ -1,6 +1,6 @@
-# Go-Food Backend Clone (Golang Microservices)
+# Go-Food
 
-A production-level backend ecosystem for a food delivery platform (Go-Food/UberEats clone) built completely in Go using Microservices and Event-Driven Architecture.
+A production-level backend ecosystem for a food delivery platform (Go-Food) built completely in Go using Microservices and Event-Driven Architecture.
 
 ## System Architecture
 This ecosystem comprises 5 distinct microservices orchestrated together.
